@@ -1,12 +1,31 @@
 import React, { FC } from "react";
-import Counter from "./features/counter/Counter";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import styled from "styled-components";
+import Header from "./Header";
+import Cart from "./Cart";
+import Home from "./Home";
+
+const Container = styled.div`
+  background: #eaeded;
+  min-height: 100vh;
+  font-family: sans-serif;
+`;
 
 const App: FC = () => {
   return (
-    <div className="App">
-      learn react
-      <Counter />
-    </div>
+    <Router>
+      <Container>
+        <Header />
+        <Switch>
+          <Route path="/" exact>
+            <Home />
+          </Route>
+          <Route path="/cart">
+            <Cart />
+          </Route>
+        </Switch>
+      </Container>
+    </Router>
   );
 };
 
