@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -17,7 +17,9 @@ const Price = styled.span`
   font-weight: 500;
   margin-top: 3px;
 `;
-const Rating = styled.div``;
+const Rating = styled.div`
+  display: flex;
+`;
 const Image = styled.img`
   max-height: 200px;
   object-fit: contain;
@@ -35,13 +37,26 @@ const AddToCarteButton = styled.button`
   }
 `;
 
-const Product: FC = () => {
+export type ProductProps = {
+  image: string;
+  name: string;
+  price: number;
+  rating: number;
+};
+
+const Product = ({ image, name, price, rating }: ProductProps): JSX.Element => {
   return (
     <Container>
-      <Title>Ipad Pro</Title>
-      <Price>$1449</Price>
-      <Rating>⭐⭐⭐⭐⭐</Rating>
-      <Image src="https://images-na.ssl-images-amazon.com/images/I/81SGb5l%2BlZL._AC_SX342_.jpg" />
+      <Title>{name}</Title>
+      <Price>${price}</Price>
+      <Rating>
+        {Array(rating)
+          .fill(undefined)
+          .map(() => (
+            <p>⭐</p>
+          ))}
+      </Rating>
+      <Image src={image} />
       <AddToCarteButton>Add to cart</AddToCarteButton>
     </Container>
   );
