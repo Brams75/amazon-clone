@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useAppSelector, useAppDispatch } from "./hooks";
-import { firebaseCartItems } from "./reducers/firebase";
-import { db } from "./firebase";
+import { useAppSelector, useAppDispatch } from "../hooks";
+import { firebaseCartItems } from "../reducers/firebase";
+import { db } from "../firebase";
 import CartItem from "./CartItem";
 
 const Container = styled.div`

@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from "react";
 import styled from "styled-components";
-import { useAppSelector, useAppDispatch } from "./hooks";
-import { firebaseProducts } from "./reducers/firebase";
+import { useAppSelector, useAppDispatch } from "../hooks";
+import { firebaseProducts } from "../reducers/firebase";
 import Product from "./Product";
-import { db } from "./firebase";
+import { db } from "../firebase";
 
 const Container = styled.div`
   max-width: 1500px;
