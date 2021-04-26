@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import styled from "styled-components";
 import { useAppSelector, useAppDispatch } from "./hooks";
-import { init } from "./reducers/product";
+import { firebaseProducts } from "./reducers/firebase";
 import Product from "./Product";
 import { db } from "./firebase";
 
@@ -11,21 +11,21 @@ const Container = styled.div`
 `;
 const Banner = styled.div`
   background-image: url(https://i.imgur.com/SYHeuYM.jpg);
-  min-height: 600px;
+  min-height: 37.5rem;
   background-position: center;
   background-size: cover;
   z-index: 1;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 `;
 const Content = styled.div`
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-top: -350px;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  margin-top: -21.875rem;
   display: flex;
 `;
 
 const Home: FC = () => {
-  const products = useAppSelector((state) => state.products.products);
+  const products = useAppSelector((state) => state.firebase.products);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const Home: FC = () => {
           product: doc.data(),
         }));
 
-        dispatch(init(tempProducts));
+        dispatch(firebaseProducts(tempProducts));
       });
     };
 
@@ -57,6 +57,7 @@ const Home: FC = () => {
             name={oneProduct.product.name}
             price={oneProduct.product.price}
             rating={oneProduct.product.rating}
+            id={oneProduct.id}
           />
         ))}
       </Content>

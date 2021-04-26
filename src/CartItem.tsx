@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -8,10 +8,11 @@ const Container = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  width: 180px;
-  height: 180px;
+  width: 11.25rem;
+  height: 11.25rem;
   flex-shrink: 0;
   flex-grow: 0;
+  margin-right: 1rem;
   img {
     object-fit: contain;
     height: 100%;
@@ -19,18 +20,20 @@ const ImageContainer = styled.div`
   }
 `;
 
-const CartItemInfo = styled.div``;
+const CartItemInfo = styled.div`
+  flex-grow: 1;
+`;
 
 const CartItemInfoTop = styled.div`
   color: #007185;
   h2 {
-    font-size: 18px;
+    font-size: 1.1rem;
   }
 `;
 
 const CartItemInfoBottom = styled.div`
   display: flex;
-  margin-top: 4px;
+  margin-top: 0.25rem;
 `;
 
 const CartItemQuantityContainer = styled.div``;
@@ -47,25 +50,29 @@ const CartItemPrice = styled.div`
   margin-left: 1rem;
 `;
 
-const CartItem: FC = () => {
+type CardItem = {
+  image: string;
+  name: string;
+  price: number;
+  quantity: number;
+};
+
+const CartItem = ({ image, name, price, quantity }: CardItem): JSX.Element => {
   return (
     <Container>
       <ImageContainer>
-        <img
-          src="https://images-na.ssl-images-amazon.com/images/I/81SGb5l%2BlZL._AC_SX342_.jpg"
-          alt="Ipad"
-        />
+        <img src={image} alt="Ipad" />
       </ImageContainer>
       <CartItemInfo>
         <CartItemInfoTop>
-          <h2>Apple Ipad</h2>
+          <h2>{name}</h2>
         </CartItemInfoTop>
         <CartItemInfoBottom>
-          <CartItemQuantityContainer>5</CartItemQuantityContainer>
+          <CartItemQuantityContainer>{quantity}</CartItemQuantityContainer>
           <CartItemDeleteContainer>Delete</CartItemDeleteContainer>
         </CartItemInfoBottom>
       </CartItemInfo>
-      <CartItemPrice>$1449</CartItemPrice>
+      <CartItemPrice>${price}</CartItemPrice>
     </Container>
   );
 };

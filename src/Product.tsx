@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { db } from "./firebase";
 
 const Container = styled.div`
   background: white;
@@ -35,16 +36,38 @@ const AddToCarteButton = styled.button`
   :hover {
     filter: brightness(95%);
   }
+  cursor: pointer;
 `;
 
-export type ProductProps = {
+type ProductProps = {
   image: string;
   name: string;
   price: number;
   rating: number;
+  id: string;
 };
 
-const Product = ({ image, name, price, rating }: ProductProps): JSX.Element => {
+const Product = ({
+  image,
+  name,
+  price,
+  rating,
+  id,
+}: ProductProps): JSX.Element => {
+  const addToCart = () => {
+    const cartItem = db.collection("cartItems").doc(id);
+    cartItem.get().then((doc) => {
+      const data = doc.data();
+      if (doc.exists && data) {
+        cartItem.update({ quantity: data.quantity + 1 });
+      } else {
+        db.collection("cartItems")
+          .doc(id)
+          .set({ name, image, price, quantity: 1 });
+      }
+    });
+  };
+
   return (
     <Container>
       <Title>{name}</Title>
@@ -57,7 +80,7 @@ const Product = ({ image, name, price, rating }: ProductProps): JSX.Element => {
           ))}
       </Rating>
       <Image src={image} />
-      <AddToCarteButton>Add to cart</AddToCarteButton>
+      <AddToCarteButton onClick={addToCart}>Add to cart</AddToCarteButton>
     </Container>
   );
 };
