@@ -1,10 +1,13 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
+import { db } from "../firebase";
 
 const Container = styled.div`
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
   display: flex;
+  border-bottom: 1px solid #ddd;
 `;
 
 const ImageContainer = styled.div`
@@ -34,9 +37,21 @@ const CartItemInfoTop = styled.div`
 const CartItemInfoBottom = styled.div`
   display: flex;
   margin-top: 0.25rem;
+  align-items: center;
 `;
 
-const CartItemQuantityContainer = styled.div``;
+const CartItemQuantityContainer = styled.div`
+  select {
+    border-radius: 0.4rem;
+    background: #f0f2f2;
+    padding: 0.5rem;
+    box-shadow: 0 2px 5px rgba(15, 17, 17, 0.15);
+
+    :focus {
+      outline: none;
+    }
+  }
+`;
 
 const CartItemDeleteContainer = styled.div`
   color: #007185;
@@ -51,13 +66,41 @@ const CartItemPrice = styled.div`
 `;
 
 type CardItem = {
+  id: string;
   image: string;
   name: string;
   price: number;
   quantity: number;
 };
 
-const CartItem = ({ image, name, price, quantity }: CardItem): JSX.Element => {
+const CartItem = ({
+  id,
+  image,
+  name,
+  price,
+  quantity,
+}: CardItem): JSX.Element => {
+  const options = [];
+
+  const deleteItem = (e: SyntheticEvent): void => {
+    e.preventDefault();
+    db.collection("cartItems").doc(id).delete();
+  };
+
+  for (let i = 1; i < Math.max(quantity + 1, 20); i += 1) {
+    options.push(
+      <option key={uuidv4()} value={i}>
+        Qty: {i}
+      </option>
+    );
+  }
+
+  const handleChangeQuantity = (newQuantity: string) => {
+    db.collection("cartItems")
+      .doc(id)
+      .update({ quantity: Number(newQuantity) });
+  };
+
   return (
     <Container>
       <ImageContainer>
@@ -68,11 +111,20 @@ const CartItem = ({ image, name, price, quantity }: CardItem): JSX.Element => {
           <h2>{name}</h2>
         </CartItemInfoTop>
         <CartItemInfoBottom>
-          <CartItemQuantityContainer>{quantity}</CartItemQuantityContainer>
-          <CartItemDeleteContainer>Delete</CartItemDeleteContainer>
+          <CartItemQuantityContainer>
+            <select
+              value={quantity}
+              onChange={(e) => handleChangeQuantity(e.target.value)}
+            >
+              {options}
+            </select>
+          </CartItemQuantityContainer>
+          <CartItemDeleteContainer onClick={deleteItem}>
+            Delete
+          </CartItemDeleteContainer>
         </CartItemInfoBottom>
       </CartItemInfo>
-      <CartItemPrice>${price}</CartItemPrice>
+      <CartItemPrice>€{price}</CartItemPrice>
     </Container>
   );
 };

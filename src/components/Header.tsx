@@ -1,9 +1,12 @@
-import React, { FC } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import { useAppSelector, useAppDispatch } from "../hooks";
+import { firebaseCartItems } from "../reducers/firebase";
+import { db } from "../firebase";
 
 const Container = styled.div`
   height: 60px;
@@ -75,9 +78,7 @@ const HeaderNavItems = styled.div`
 const HeaderOption = styled.div`
   padding: 10px 9px 10px 9px;
   margin: 0.5rem;
-  :hover {
-    border: 1px solid white;
-  }
+  cursor: pointer;
 `;
 
 const HeaderOptionCart = styled.div`
@@ -97,7 +98,37 @@ const CartCount = styled.div`
   color: #f08804;
 `;
 
-const Header: FC = () => {
+interface HeaderProps {
+  user: { name: string; email: string; photo: string } | null;
+  signOut: () => void;
+}
+
+const Header = ({ user, signOut }: HeaderProps): JSX.Element => {
+  const cartItems = useAppSelector((state) => state.firebase.cartItems);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const getCartItems = () => {
+      db.collection("cartItems").onSnapshot((snapshot) => {
+        const tempCartItems = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          cartItem: doc.data(),
+        }));
+
+        dispatch(firebaseCartItems(tempCartItems));
+      });
+    };
+
+    getCartItems();
+  }, [dispatch]);
+
+  const getCount = (): number => {
+    let count = 0;
+    cartItems.forEach((item) => {
+      count += item.cartItem.quantity;
+    });
+    return count;
+  };
   return (
     <Container>
       <HeaderLogo>
@@ -111,7 +142,7 @@ const Header: FC = () => {
       <HeaderOptionAddress>
         <LocationOnIcon />
         <HeaderOption>
-          <OptionLineOne>Hello</OptionLineOne>
+          <OptionLineOne>Hello </OptionLineOne>
           <OptionLineTwo>Select Your Adress</OptionLineTwo>
         </HeaderOption>
       </HeaderOptionAddress>
@@ -123,8 +154,8 @@ const Header: FC = () => {
       </HeaderSearch>
 
       <HeaderNavItems>
-        <HeaderOption>
-          <OptionLineOne>Hello, Nazari</OptionLineOne>
+        <HeaderOption onClick={signOut}>
+          <OptionLineOne>Hello, {user && user.name}</OptionLineOne>
           <OptionLineTwo>Account & Lists</OptionLineTwo>
         </HeaderOption>
 
@@ -136,7 +167,7 @@ const Header: FC = () => {
           <Link to="/cart">
             <ShoppingBasketIcon />
 
-            <CartCount>4</CartCount>
+            <CartCount>{getCount()}</CartCount>
           </Link>
         </HeaderOptionCart>
       </HeaderNavItems>

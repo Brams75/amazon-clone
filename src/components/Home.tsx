@@ -29,7 +29,7 @@ const Home: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const getProducts = () => {
+    const getProducts = (): void => {
       db.collection("products").onSnapshot((snapshot) => {
         const tempProducts = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -43,9 +43,6 @@ const Home: FC = () => {
     getProducts();
   }, [dispatch]);
 
-  if (products.length < 1) {
-    return <p>Hello</p>;
-  }
   return (
     <Container>
       <Banner />

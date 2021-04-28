@@ -23,8 +23,8 @@ const CartItems = (): JSX.Element => {
   const cartItems = useAppSelector((state) => state.firebase.cartItems);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const getCartItems = () => {
+  useEffect((): void => {
+    const getCartItems = (): void => {
       db.collection("cartItems").onSnapshot((snapshot) => {
         const tempCartItems = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -38,24 +38,24 @@ const CartItems = (): JSX.Element => {
     getCartItems();
   }, [dispatch]);
 
-  if (cartItems.length < 1) {
-    return <p>Hello</p>;
-  }
-
   return (
     <Container>
       <Title>Shopping Cart</Title>
       <hr />
       <ItemsContainer>
-        {cartItems.map((cartItem) => (
-          <CartItem
-            key={cartItem.id}
-            image={cartItem.cartItem.image}
-            name={cartItem.cartItem.name}
-            price={cartItem.cartItem.price}
-            quantity={cartItem.cartItem.quantity}
-          />
-        ))}
+        {cartItems.map((item) => {
+          const { image, name, price, quantity } = item.cartItem;
+          return (
+            <CartItem
+              key={item.id}
+              id={item.id}
+              image={image}
+              name={name}
+              price={price}
+              quantity={quantity}
+            />
+          );
+        })}
       </ItemsContainer>
     </Container>
   );

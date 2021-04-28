@@ -36,7 +36,9 @@ export const { firebaseProducts, firebaseCartItems } = firebase.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const selectProducts = (state: RootState) => state.firebase.products;
-export const selectCartItems = (state: RootState) => state.firebase.cartItems;
+export const selectProducts = (state: RootState): ProductState["products"] =>
+  state.firebase.products;
+export const selectCartItems = (state: RootState): ProductState["cartItems"] =>
+  state.firebase.cartItems;
 
 export default firebase.reducer;

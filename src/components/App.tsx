@@ -1,9 +1,11 @@
-import React, { FC } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
+import { auth } from "../firebase";
 import Header from "./Header";
 import Cart from "./Cart";
 import Home from "./Home";
+import Login from "./Login";
 
 const Container = styled.div`
   background: #eaeded;
@@ -11,20 +13,50 @@ const Container = styled.div`
   font-family: sans-serif;
 `;
 
-const App: FC = () => {
+interface UserObject {
+  name: string;
+  email: string;
+  photo: string;
+}
+
+const App = (): JSX.Element => {
+  const userObject: UserObject = JSON.parse(`${localStorage.getItem("user")}`);
+
+  const [user, setUser] = useState<{
+    name: string;
+    email: string;
+    photo: string;
+  } | null>(userObject);
+
+  const signOut = () => {
+    auth.signOut().then(() => {
+      setUser(null);
+      localStorage.removeItem("user");
+    });
+  };
+
   return (
     <Router>
-      <Container>
-        <Header />
-        <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/cart">
-            <Cart />
-          </Route>
-        </Switch>
-      </Container>
+      {!user ? (
+        <Login setUser={setUser} />
+      ) : (
+        <Container>
+          <Header signOut={signOut} user={user} />
+          <Switch>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+
+            <Route path="/login">
+              <Login setUser={setUser} />
+            </Route>
+
+            <Route path="/cart">
+              <Cart />
+            </Route>
+          </Switch>
+        </Container>
+      )}
     </Router>
   );
 };

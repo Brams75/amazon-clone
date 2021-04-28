@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 import { db } from "../firebase";
 
 const Container = styled.div`
@@ -71,12 +72,12 @@ const Product = ({
   return (
     <Container>
       <Title>{name}</Title>
-      <Price>${price}</Price>
+      <Price>€{price}</Price>
       <Rating>
         {Array(rating)
           .fill(undefined)
           .map(() => (
-            <p>⭐</p>
+            <p key={uuidv4()}>⭐</p>
           ))}
       </Rating>
       <Image src={image} />
