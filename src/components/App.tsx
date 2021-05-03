@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../firebase";
@@ -14,19 +14,15 @@ const Container = styled.div`
 `;
 
 interface UserObject {
-  name: string;
-  email: string;
-  photo: string;
+  name: string | null;
+  email: string | null;
+  photo: string | null;
 }
 
-const App = (): JSX.Element => {
+const App = (): ReactElement => {
   const userObject: UserObject = JSON.parse(`${localStorage.getItem("user")}`);
 
-  const [user, setUser] = useState<{
-    name: string;
-    email: string;
-    photo: string;
-  } | null>(userObject);
+  const [user, setUser] = useState<UserObject | null>(userObject);
 
   const signOut = () => {
     auth.signOut().then(() => {

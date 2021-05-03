@@ -1,6 +1,7 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import styled from "styled-components";
 import { auth, provider } from "../firebase";
+import amazon from "../__images__/amazon.png";
 
 const Container = styled.div`
   width: 100%;
@@ -16,11 +17,15 @@ const Content = styled.div`
   border-radius: 0.3rem;
   box-shadow: 0 1px 3px gray;
   text-align: center;
+  h1 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    font-family: sans-serif;
+  }
 `;
 
 const AmazonLogo = styled.img`
-  height: 6.25rem;
-  margin-bottom: 2.3rem;
+  width: 15rem;
 `;
 
 const LoginButton = styled.button`
@@ -33,7 +38,17 @@ const LoginButton = styled.button`
   cursor: pointer;
 `;
 
-const Login = ({ setUser }: any): JSX.Element => {
+const Login = ({
+  setUser,
+}: {
+  setUser: React.Dispatch<
+    React.SetStateAction<{
+      name: string | null;
+      email: string | null;
+      photo: string | null;
+    } | null>
+  >;
+}): ReactElement => {
   const signIn = () => {
     auth
       .signInWithPopup(provider)
@@ -51,14 +66,14 @@ const Login = ({ setUser }: any): JSX.Element => {
         }
       })
       .catch((error) => {
-        console.log(error.message);
+        throw error;
       });
   };
 
   return (
     <Container>
       <Content>
-        <AmazonLogo src="https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c518.png" />
+        <AmazonLogo src={amazon} />
         <h1>Sign into Amazon</h1>
         <LoginButton onClick={signIn}>Sign in with Google</LoginButton>
       </Content>

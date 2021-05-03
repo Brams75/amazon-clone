@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import styled from "styled-components";
 import { useAppSelector, useAppDispatch } from "../hooks";
 import { firebaseCartItems } from "../reducers/firebase";
@@ -19,7 +19,7 @@ const Title = styled.h1`
 
 const ItemsContainer = styled.div``;
 
-const CartItems = (): JSX.Element => {
+const CartItems = (): ReactElement => {
   const cartItems = useAppSelector((state) => state.firebase.cartItems);
   const dispatch = useAppDispatch();
 

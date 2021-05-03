@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import styled from "styled-components";
 import NumberFormat from "react-number-format";
 
@@ -34,11 +34,11 @@ interface CartTotalProps {
 const CartTotal = ({
   getCount,
   getTotalPrice,
-}: CartTotalProps): JSX.Element => {
+}: CartTotalProps): ReactElement => {
   return (
     <Container>
       <Subtotal>
-        Subtotal ({getCount()} items):{" "}
+        Subtotal ({getCount()} items):
         <NumberFormat
           value={getTotalPrice()}
           displayType="text"
