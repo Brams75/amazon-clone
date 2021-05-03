@@ -21,6 +21,10 @@ const HeaderLogo = styled.div`
   img {
     width: 100px;
     margin-left: 11px;
+    padding: 0.7rem;
+    :hover {
+      border: 1px solid white;
+    }
   }
 `;
 
@@ -28,6 +32,9 @@ const HeaderOptionAddress = styled.div`
   padding-left: 9px;
   display: flex;
   align-items: center;
+  :hover {
+    border: 1px solid white;
+  }
 `;
 
 const OptionLineOne = styled.div``;
@@ -76,13 +83,16 @@ const HeaderNavItems = styled.div`
 `;
 
 const HeaderOption = styled.div`
-  padding: 10px 9px 10px 9px;
+  padding: 0.2rem;
   margin: 0.5rem;
   cursor: pointer;
 `;
 
 const HeaderOptionCart = styled.div`
   display: flex;
+  padding: 0.8rem;
+  margin-right: 0.5rem;
+  width: 48px;
   a {
     display: flex;
     align-items: center;
@@ -90,10 +100,15 @@ const HeaderOptionCart = styled.div`
     color: white;
     text-decoration: none;
   }
+  :hover {
+    border: 1px solid white;
+    width: 48px;
+  }
 `;
 
 const CartCount = styled.div`
   padding-left: 4px;
+  margin-top: 5px;
   font-weight: 700;
   color: #f08804;
 `;
@@ -152,7 +167,9 @@ const Header = ({ user, signOut }: HeaderProps): ReactElement => {
 
       <HeaderNavItems>
         <HeaderOption onClick={signOut}>
-          <OptionLineOne>Hello, {user && user.name}</OptionLineOne>
+          <OptionLineOne data-testid="name">
+            Hello, {user && user.name}
+          </OptionLineOne>
           <OptionLineTwo>Account & Lists</OptionLineTwo>
         </HeaderOption>
 
@@ -164,7 +181,7 @@ const Header = ({ user, signOut }: HeaderProps): ReactElement => {
           <Link to="/cart">
             <ShoppingBasketIcon />
 
-            <CartCount>{getCount()}</CartCount>
+            <CartCount data-testid="cartCount">{getCount()}</CartCount>
           </Link>
         </HeaderOptionCart>
       </HeaderNavItems>
