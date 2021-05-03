@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import styled from "styled-components";
 import CartItems from "./CartItems";
 import CartTotal from "./CartTotal";
@@ -12,7 +12,7 @@ const Container = styled.div`
   align-items: flex-start;
 `;
 
-const Cart = (): JSX.Element => {
+const Cart = (): ReactElement => {
   const cartItems = useAppSelector((state) => state.firebase.cartItems);
   const dispatch = useAppDispatch();
 

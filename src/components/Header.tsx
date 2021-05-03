@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
@@ -99,16 +99,16 @@ const CartCount = styled.div`
 `;
 
 interface HeaderProps {
-  user: { name: string; email: string; photo: string } | null;
+  user: { name: string | null; email: string | null; photo: string | null };
   signOut: () => void;
 }
 
-const Header = ({ user, signOut }: HeaderProps): JSX.Element => {
+const Header = ({ user, signOut }: HeaderProps): ReactElement => {
   const cartItems = useAppSelector((state) => state.firebase.cartItems);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const getCartItems = () => {
+    const getCartItems = (): void => {
       db.collection("cartItems").onSnapshot((snapshot) => {
         const tempCartItems = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -133,10 +133,7 @@ const Header = ({ user, signOut }: HeaderProps): JSX.Element => {
     <Container>
       <HeaderLogo>
         <Link to="/">
-          <img
-            src="https://mikekitko.com/wp-content/uploads/2019/10/amazon-logo-white-768x232.png"
-            alt="amazon logo"
-          />
+          <img src="https://i.imgur.com/7I9Was5.png" alt="amazon logo" />
         </Link>
       </HeaderLogo>
       <HeaderOptionAddress>

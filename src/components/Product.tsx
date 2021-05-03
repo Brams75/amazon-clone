@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "../firebase";
@@ -12,6 +12,7 @@ const Container = styled.div`
   max-height: 400px;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 `;
 
 const Title = styled.span``;
@@ -54,7 +55,7 @@ const Product = ({
   price,
   rating,
   id,
-}: ProductProps): JSX.Element => {
+}: ProductProps): ReactElement => {
   const addToCart = () => {
     const cartItem = db.collection("cartItems").doc(id);
     cartItem.get().then((doc) => {

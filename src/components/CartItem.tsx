@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from "react";
+import React, { ReactElement, SyntheticEvent } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "../firebase";
@@ -79,7 +79,7 @@ const CartItem = ({
   name,
   price,
   quantity,
-}: CardItem): JSX.Element => {
+}: CardItem): ReactElement => {
   const options = [];
 
   const deleteItem = (e: SyntheticEvent): void => {

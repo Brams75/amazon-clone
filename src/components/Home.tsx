@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import styled from "styled-components";
 import { useAppSelector, useAppDispatch } from "../hooks";
 import { firebaseProducts } from "../reducers/firebase";
@@ -22,9 +22,10 @@ const Content = styled.div`
   padding-right: 0.625rem;
   margin-top: -21.875rem;
   display: flex;
+  flex-wrap: wrap;
 `;
 
-const Home: FC = () => {
+const Home = (): ReactElement => {
   const products = useAppSelector((state) => state.firebase.products);
   const dispatch = useAppDispatch();
 
