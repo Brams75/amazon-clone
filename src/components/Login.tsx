@@ -75,7 +75,9 @@ const Login = ({
       <Content>
         <AmazonLogo src={amazon} />
         <h1>Sign into Amazon</h1>
-        <LoginButton onClick={signIn}>Sign in with Google</LoginButton>
+        <LoginButton onClick={signIn} data-testid="login-button">
+          Sign in with Google
+        </LoginButton>
       </Content>
     </Container>
   );

@@ -47,6 +47,7 @@ type ProductProps = {
   price: number;
   rating: number;
   id: string;
+  test: string;
 };
 
 const Product = ({
@@ -55,6 +56,7 @@ const Product = ({
   price,
   rating,
   id,
+  test,
 }: ProductProps): ReactElement => {
   const addToCart = () => {
     const cartItem = db.collection("cartItems").doc(id);
@@ -82,7 +84,9 @@ const Product = ({
           ))}
       </Rating>
       <Image src={image} />
-      <AddToCarteButton onClick={addToCart}>Add to cart</AddToCarteButton>
+      <AddToCarteButton onClick={addToCart} data-testid={`button-${test}`}>
+        Add to cart
+      </AddToCarteButton>
     </Container>
   );
 };

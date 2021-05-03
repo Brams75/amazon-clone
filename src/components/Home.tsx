@@ -48,9 +48,10 @@ const Home = (): ReactElement => {
     <Container>
       <Banner />
       <Content>
-        {products.map((oneProduct) => (
+        {products.map((oneProduct, index) => (
           <Product
             key={oneProduct.id}
+            test={`${index}`}
             image={oneProduct.product.image}
             name={oneProduct.product.name}
             price={oneProduct.product.price}
