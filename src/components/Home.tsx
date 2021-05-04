@@ -46,8 +46,8 @@ const Home = (): ReactElement => {
 
   return (
     <Container>
-      <Banner />
-      <Content>
+      <Banner data-testid="banner" />
+      <Content data-testid="content">
         {products.map((oneProduct, index) => (
           <Product
             key={oneProduct.id}

@@ -37,7 +37,7 @@ const App = (): ReactElement => {
         <Login setUser={setUser} />
       ) : (
         <Container>
-          <Header signOut={signOut} user={user} />
+          <Header signOut={signOut} user={user} data-testid="header" />
           <Switch>
             <Route path="/" exact>
               <Home />
