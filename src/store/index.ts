@@ -1,9 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import firebaseReducer from "../reducers/firebase";
+import { configureStore } from '@reduxjs/toolkit';
+import productReducer from '../reducers/products';
+import cartItemReducer from '../reducers/cartItems';
 
 const store = configureStore({
   reducer: {
-    firebase: firebaseReducer,
+    products: productReducer,
+    cartItems: cartItemReducer,
   },
 });
 

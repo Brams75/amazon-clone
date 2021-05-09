@@ -1,7 +1,12 @@
-import React, { ReactElement } from "react";
-import styled from "styled-components";
-import { v4 as uuidv4 } from "uuid";
-import { db } from "../firebase";
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
+import { db } from '../../firebase';
+import Price from './Price';
+import Title from './Title';
+import Rating from './Rating';
+import Image from './Image';
+import AddToCarteButton from './AddToCarteButton';
 
 const Container = styled.div`
   background: white;
@@ -15,40 +20,14 @@ const Container = styled.div`
   justify-content: space-around;
 `;
 
-const Title = styled.span``;
-const Price = styled.span`
-  font-weight: 500;
-  margin-top: 3px;
-`;
-const Rating = styled.div`
-  display: flex;
-`;
-const Image = styled.img`
-  max-height: 200px;
-  object-fit: contain;
-`;
-const AddToCarteButton = styled.button`
-  margin-top: 12px;
-  width: 100px;
-  height: 30px;
-  background-color: #f0c14b;
-  border: 2px solid #a88734;
-  border-radius: 3px;
-  align-self: center;
-  :hover {
-    filter: brightness(95%);
-  }
-  cursor: pointer;
-`;
-
-type ProductProps = {
+interface ProductProps {
   image: string;
   name: string;
   price: number;
   rating: number;
   id: string;
   test: string;
-};
+}
 
 const Product = ({
   image,
@@ -59,13 +38,13 @@ const Product = ({
   test,
 }: ProductProps): ReactElement => {
   const addToCart = () => {
-    const cartItem = db.collection("cartItems").doc(id);
+    const cartItem = db.collection('cartItems').doc(id);
     cartItem.get().then((doc) => {
       const data = doc.data();
       if (doc.exists && data) {
         cartItem.update({ quantity: data.quantity + 1 });
       } else {
-        db.collection("cartItems")
+        db.collection('cartItems')
           .doc(id)
           .set({ name, image, price, quantity: 1 });
       }

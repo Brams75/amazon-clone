@@ -1,7 +1,10 @@
-import React, { ReactElement } from "react";
-import styled from "styled-components";
-import { auth, provider } from "../firebase";
-import amazon from "../__images__/amazon.png";
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
+import { auth, provider } from '../../firebase';
+import amazon from '../../__images__/amazon.png';
+import LoginContent from './LoginContent';
+import LoginButton from './LoginButton';
+import AmazonLogo from './AmazonLogo';
 
 const Container = styled.div`
   width: 100%;
@@ -11,36 +14,7 @@ const Container = styled.div`
   place-items: center;
 `;
 
-const Content = styled.div`
-  padding: 6.25rem;
-  background: white;
-  border-radius: 0.3rem;
-  box-shadow: 0 1px 3px gray;
-  text-align: center;
-  h1 {
-    font-size: 1.75rem;
-    font-weight: bold;
-    font-family: sans-serif;
-  }
-`;
-
-const AmazonLogo = styled.img`
-  width: 15rem;
-`;
-
-const LoginButton = styled.button`
-  margin-top: 3rem;
-  background: #f0c14b;
-  border-radius: 0.25rem;
-  border: 0.125rem solid #a88734;
-  font-size: 1rem;
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
-`;
-
-const Login = ({
-  setUser,
-}: {
+interface SetUser {
   setUser: React.Dispatch<
     React.SetStateAction<{
       name: string | null;
@@ -48,7 +22,9 @@ const Login = ({
       photo: string | null;
     } | null>
   >;
-}): ReactElement => {
+}
+
+const Login = ({ setUser }: SetUser): ReactElement => {
   const signIn = () => {
     auth
       .signInWithPopup(provider)
@@ -61,7 +37,7 @@ const Login = ({
             email: user.email,
             photo: user.photoURL,
           };
-          localStorage.setItem("user", JSON.stringify(newUser));
+          localStorage.setItem('user', JSON.stringify(newUser));
           setUser(newUser);
         }
       })
@@ -72,13 +48,13 @@ const Login = ({
 
   return (
     <Container>
-      <Content>
+      <LoginContent>
         <AmazonLogo src={amazon} />
         <h1>Sign into Amazon</h1>
         <LoginButton onClick={signIn} data-testid="login-button">
           Sign in with Google
         </LoginButton>
-      </Content>
+      </LoginContent>
     </Container>
   );
 };
