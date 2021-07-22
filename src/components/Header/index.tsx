@@ -1,23 +1,23 @@
-import React, { ReactElement, useEffect } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import SearchIcon from '@material-ui/icons/Search';
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { firebaseCartItems } from '../../reducers/cartItems';
-import { db } from '../../firebase';
-import HeaderLogo from './HeaderLogo';
-import HeaderOptionAddress from './HeaderOptionAddress';
-import OptionLineOne from './OptionLineOne';
-import OptionLineTwo from './OptionLineTwo';
-import HeaderSearch from './HeaderSearch';
-import HeaderSearchInput from './HeaderSearchInput';
-import HeaderSearchIconContainer from './HeaderSearchIconContainer';
-import HeaderNavItems from './HeaderNavItems';
-import HeaderOption from './HeaderOption';
-import HeaderOptionCart from './HeaderOptionCart';
-import CartCount from './CartCount';
+import React, { ReactElement, useEffect } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import { getCartItems } from "../../reducers/cartItems";
+import { db } from "../../firebase";
+import HeaderLogo from "./HeaderLogo";
+import HeaderOptionAddress from "./HeaderOptionAddress";
+import OptionLineOne from "./OptionLineOne";
+import OptionLineTwo from "./OptionLineTwo";
+import HeaderSearch from "./HeaderSearch";
+import HeaderSearchInput from "./HeaderSearchInput";
+import HeaderSearchIconContainer from "./HeaderSearchIconContainer";
+import HeaderNavItems from "./HeaderNavItems";
+import HeaderOption from "./HeaderOption";
+import HeaderOptionCart from "./HeaderOptionCart";
+import CartCount from "./CartCount";
 
 const Container = styled.div`
   height: 60px;
@@ -31,30 +31,23 @@ const Container = styled.div`
 interface HeaderProps {
   user: { name: string | null; email: string | null; photo: string | null };
   signOut: () => void;
+  cartInit: () => void;
+  cartItems: any;
 }
 
-const Header = ({ user, signOut }: HeaderProps): ReactElement => {
-  const cartItems = useAppSelector((state) => state.cartItems.cartItems);
-  const dispatch = useAppDispatch();
-
+const Header = ({
+  user,
+  signOut,
+  cartInit,
+  cartItems,
+}: HeaderProps): ReactElement => {
   useEffect(() => {
-    const getCartItems = (): void => {
-      db.collection('cartItems').onSnapshot((snapshot) => {
-        const tempCartItems = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          cartItem: doc.data(),
-        }));
-
-        dispatch(firebaseCartItems(tempCartItems));
-      });
-    };
-
-    getCartItems();
-  }, [dispatch]);
+    cartInit();
+  }, []);
 
   const getCount = (): number => {
     let count = 0;
-    cartItems.forEach((item) => {
+    cartItems.forEach((item: any) => {
       count += item.cartItem.quantity;
     });
     return count;

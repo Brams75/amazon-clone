@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const HeaderOptionCart = styled.div`
   display: flex;
@@ -11,10 +11,6 @@ const HeaderOptionCart = styled.div`
     justify-content: center;
     color: white;
     text-decoration: none;
-  }
-  :hover {
-    border: 1px solid white;
-    width: 48px;
   }
 `;
 

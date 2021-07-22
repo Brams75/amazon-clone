@@ -1,10 +1,7 @@
-import React, { ReactElement, useEffect } from 'react';
-import styled from 'styled-components';
-import CartItems from '../CartItems';
-import CartTotal from '../CartTotal';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { firebaseCartItems } from '../../reducers/cartItems';
-import { db } from '../../firebase';
+import React, { ReactElement, useEffect } from "react";
+import styled from "styled-components";
+import CartItems from "../../containers/CartItems";
+import CartTotal from "../CartTotal";
 
 const Container = styled.div`
   display: flex;
@@ -12,28 +9,20 @@ const Container = styled.div`
   align-items: flex-start;
 `;
 
-const Cart = (): ReactElement => {
-  const cartItems = useAppSelector((state) => state.cartItems.cartItems);
-  const dispatch = useAppDispatch();
-
+const Cart = ({
+  cartInit,
+  cartItems,
+}: {
+  cartInit: () => void;
+  cartItems: any;
+}): ReactElement => {
   useEffect(() => {
-    const getCartItems = () => {
-      db.collection('cartItems').onSnapshot((snapshot) => {
-        const tempCartItems = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          cartItem: doc.data(),
-        }));
-
-        dispatch(firebaseCartItems(tempCartItems));
-      });
-    };
-
-    getCartItems();
-  }, [dispatch]);
+    cartInit();
+  }, []);
 
   const getTotalPrice = (): number => {
     let total = 0;
-    cartItems.forEach((item) => {
+    cartItems.forEach((item: any) => {
       total += item.cartItem.price * item.cartItem.quantity;
     });
 
@@ -42,7 +31,7 @@ const Cart = (): ReactElement => {
 
   const getCount = (): number => {
     let count = 0;
-    cartItems.forEach((item) => {
+    cartItems.forEach((item: any) => {
       count += item.cartItem.quantity;
     });
 

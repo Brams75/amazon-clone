@@ -1,10 +1,10 @@
-import React, { ReactElement } from 'react';
-import styled from 'styled-components';
-import { auth, provider } from '../../firebase';
-import amazon from '../../__images__/amazon.png';
-import LoginContent from './LoginContent';
-import LoginButton from './LoginButton';
-import AmazonLogo from './AmazonLogo';
+import React, { ReactElement } from "react";
+import styled from "styled-components";
+import { auth, provider } from "../../firebase";
+import amazon from "../../__images__/amazon.png";
+import LoginContent from "./LoginContent";
+import LoginButton from "./LoginButton";
+import AmazonLogo from "./AmazonLogo";
 
 const Container = styled.div`
   width: 100%;
@@ -24,7 +24,7 @@ interface SetUser {
   >;
 }
 
-const Login = ({ setUser }: SetUser): ReactElement => {
+const Login: React.FC<SetUser> = ({ setUser }): ReactElement => {
   const signIn = () => {
     auth
       .signInWithPopup(provider)
@@ -37,7 +37,7 @@ const Login = ({ setUser }: SetUser): ReactElement => {
             email: user.email,
             photo: user.photoURL,
           };
-          localStorage.setItem('user', JSON.stringify(newUser));
+          localStorage.setItem("user", JSON.stringify(newUser));
           setUser(newUser);
         }
       })

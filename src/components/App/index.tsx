@@ -1,11 +1,11 @@
-import React, { ReactElement, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import styled from 'styled-components';
-import { auth } from '../../firebase';
-import Header from '../Header';
-import Cart from '../Cart';
-import Home from '../Home';
-import Login from '../Login';
+import React, { ReactElement, useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import styled from "styled-components";
+import { auth } from "../../firebase";
+import Header from "../../containers/Header";
+import Cart from "../../containers/Cart";
+import Home from "../Home";
+import Login from "../Login";
 
 const Container = styled.div`
   background: #eaeded;
@@ -20,15 +20,13 @@ interface UserObject {
 }
 
 const App = (): ReactElement => {
-  const userObject: UserObject = JSON.parse(`${localStorage.getItem('user')}`);
-
+  const userObject: UserObject = JSON.parse(`${localStorage.getItem("user")}`);
   const [user, setUser] = useState<UserObject | null>(userObject);
 
   const signOut = () => {
-    auth.signOut().then(() => {
-      setUser(null);
-      localStorage.removeItem('user');
-    });
+    auth.signOut();
+    setUser(null);
+    localStorage.removeItem("user");
   };
 
   return (
@@ -37,16 +35,14 @@ const App = (): ReactElement => {
         <Login setUser={setUser} />
       ) : (
         <Container>
-          <Header signOut={signOut} user={user} data-testid="header" />
+          <Header signOut={signOut} user={user} />
           <Switch>
             <Route path="/" exact>
               <Home />
             </Route>
-
             <Route path="/login">
               <Login setUser={setUser} />
             </Route>
-
             <Route path="/cart">
               <Cart />
             </Route>

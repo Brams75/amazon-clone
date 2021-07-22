@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "target": "es5",
     "lib": ["es6", "dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -14,7 +15,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true

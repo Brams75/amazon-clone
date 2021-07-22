@@ -1,9 +1,9 @@
-import React, { ReactElement, useEffect } from 'react';
-import styled from 'styled-components';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { firebaseCartItems } from '../../reducers/cartItems';
-import { db } from '../../firebase';
-import CartItem from '../CartItem';
+import React, { ReactElement, useEffect } from "react";
+import styled from "styled-components";
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import { getCartItems } from "../../reducers/cartItems";
+import { db } from "../../firebase";
+import CartItem from "../CartItem";
 
 const Container = styled.div`
   min-height: 100%;
@@ -19,31 +19,23 @@ const Title = styled.h1`
 
 const ItemsContainer = styled.div``;
 
-const CartItems = (): ReactElement => {
-  const cartItems = useAppSelector((state) => state.cartItems.cartItems);
-  const dispatch = useAppDispatch();
-
-  useEffect((): void => {
-    const getCartItems = (): void => {
-      db.collection('cartItems').onSnapshot((snapshot) => {
-        const tempCartItems = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          cartItem: doc.data(),
-        }));
-
-        dispatch(firebaseCartItems(tempCartItems));
-      });
-    };
-
-    getCartItems();
-  }, [dispatch]);
+const CartItems = ({
+  cartInit,
+  cartItems,
+}: {
+  cartInit: () => void;
+  cartItems: any;
+}): ReactElement => {
+  useEffect(() => {
+    cartInit();
+  }, []);
 
   return (
     <Container>
       <Title>Shopping Cart</Title>
       <hr />
       <ItemsContainer>
-        {cartItems.map((item) => {
+        {cartItems.map((item: any) => {
           const { image, name, price, quantity } = item.cartItem;
           return (
             <CartItem
